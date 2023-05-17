@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import VButton from './VButton.vue';
+import VButton from './VButton.vue'
 
 export default {
   components: {
@@ -27,31 +27,31 @@ export default {
   props: {
     isOpen: {
       type: Boolean,
-      required: true,
+      required: true
     },
     title: {
       type: String,
-      default: "Modal Title",
+      default: 'Modal Title'
     },
     confirmButtonText: {
       type: String,
-      default: "OK",
+      default: 'OK'
     },
     cancelButtonText: {
       type: String,
-      default: "Cancel",
-    },
+      default: 'Cancel'
+    }
   },
   methods: {
     close() {
-      this.$emit("update:isOpen", false);
+      this.$emit('update:isOpen', false)
     },
     submit() {
-      this.$emit("submit");
-      this.close();
-    },
-  },
-};
+      this.$emit('submit')
+      this.close()
+    }
+  }
+}
 </script>
 
 <style>

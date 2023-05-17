@@ -1,9 +1,8 @@
-export function parserDataCity (data) {
-  const [city] = data.place_name.split(",")
-  console.log(data)
+export function parserDataCity(data) {
+  const [city] = data.place_name.split(',')
   return {
     city,
-    lat: data.geometry.coordinates[1],
-    lon: data.geometry.coordinates[0]
+    lat: Number(data.geometry.coordinates[1].toFixed(4)),
+    lon: Number(data.geometry.coordinates[0].toFixed(3))
   }
 }

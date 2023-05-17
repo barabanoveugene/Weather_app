@@ -1,23 +1,23 @@
 <template>
   <div class="selected__card">
     <div class="selected__card__header">
-      <v-tabs @setTypeIndexDay="setTypeIndexDay"/>
-      <v-button @click="showDialog">Remove City</v-button>
-      <!-- <div class="selected__card__header__action"> -->
-        
-        <div class="selectes__card__header__text">
-          <p>Favorite city</p>
-        </div>
-      <!-- </div> -->
+      <div class="selected__card__header__action">
+        <v-tabs @setTypeIndexDay="setTypeIndexDay" />
+        <v-button @click="showDialog" :isHoverGray="true"> Remove City </v-button>
+      </div>
+      <div class="selectes__card__header__text">
+        <p>Selected city: {{ weatherSelectedCity.city.city }}</p>
+      </div>
     </div>
-    <div class="selected__card__container">
-      <weather-mini-card 
+    <div class="selected__card__container" :class="{ selected__card: isSingleCard }">
+      <weather-mini-card
         v-for="card in dataCards"
         :key="card.currentTime"
         :weatherDay="card"
+        :isSingle="isSingleCard"
       />
     </div>
-    <v-dialog 
+    <v-dialog
       v-model:isOpen="isOpenDialog"
       :confirmButtonText="'Remove city'"
       :title="'Remove city'"
@@ -30,10 +30,10 @@
 </template>
 
 <script>
-import VTabs from './../Ui/VTabs.vue';
-import WeatherMiniCard from './UI/WeatherMiniCard.vue';
-import VButton from './../Ui/VButton.vue';
-import VDialog from './../Ui/VDialog.vue';
+import VTabs from './../Ui/VTabs.vue'
+import WeatherMiniCard from './UI/WeatherMiniCard.vue'
+import VButton from './../Ui/VButton.vue'
+import VDialog from './../Ui/VDialog.vue'
 
 export default {
   components: {
@@ -41,7 +41,6 @@ export default {
     WeatherMiniCard,
     VButton,
     VDialog
-    
   },
   data() {
     return {
@@ -55,24 +54,25 @@ export default {
       default: () => {},
       required: true
     },
-    index: {
+    currentIndex: {
       type: Number,
       required: true
     }
   },
   methods: {
     showDialog() {
-        this.isOpenDialog = true
-      },
+      this.isOpenDialog = true
+    },
     removeCity() {
-      this.$emit('removeFavoriteCity', this.index)
+      const cityName = this.weatherSelectedCity.city.city
+      this.$emit('removeFavoriteCity', this.currentIndex, cityName)
     },
     setTypeIndexDay(index) {
       this.typeDay = index
     }
   },
   computed: {
-    dataCards () {
+    dataCards() {
       if (this.typeDay === 1) {
         return [this.weatherSelectedCity['dayWeather']]
       }
@@ -80,12 +80,11 @@ export default {
         return this.weatherSelectedCity['dailyWeather']
       }
       return []
+    },
+    isSingleCard() {
+      return this.dataCards.length === 1
     }
-  },
-  mounted() {
-    console.log(this.weatherSelectedCity)
   }
-  
 }
 </script>
 
@@ -98,18 +97,23 @@ export default {
 }
 .selected__card__header {
   display: flex;
+  justify-content: space-between;
 }
 .selected__card__container {
   display: flex;
-  gap: 24px;
   justify-content: space-around;
+}
+.selected__card {
+  display: block;
 }
 
 .selected__card__header__action {
   display: flex;
+  gap: 100px;
 }
 .selectes__card__header__text {
   padding: 8px 15px;
   color: #fff;
+  font-size: 20px;
 }
 </style>

@@ -1,20 +1,19 @@
 <template>
   <div class="tabs">
-    <button @click="test">Open modal</button>
-      <v-button 
-        @click="handlerClickButton" 
-        :data-value="day.value"
-        v-for="day in tabs"
-        :key="day.value"
-      >
-        {{ day.title }}
-      </v-button>
+    <v-button
+      @click="handlerClickButton"
+      :data-value="day.value"
+      v-for="day in tabs"
+      :key="day.value"
+      :isHoverGray="true"
+    >
+      {{ day.title }}
+    </v-button>
   </div>
 </template>
 
 <script>
-import VButton from './VButton.vue';
-
+import VButton from './VButton.vue'
 
 const daysTabs = [
   {
@@ -28,23 +27,21 @@ const daysTabs = [
 ]
 export default {
   components: {
-    VButton,
+    VButton
   },
   data() {
     return {
       tabs: daysTabs,
       activeTab: 1
-      
-    };
+    }
   },
   methods: {
     handlerClickButton(event) {
-      this.activeTab = Number(event.target.dataset.value);
+      this.activeTab = Number(event.target.dataset.value)
       this.$emit('setTypeIndexDay', this.activeTab)
     }
-  },
-  
-};
+  }
+}
 </script>
 
 <style scoped>

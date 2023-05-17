@@ -1,26 +1,26 @@
-import getCurrentTime from "./getCurrentTime";
-import capitalizeFirstLetter from './capitalizeFirstLetter';
-import conversionTempFromFtoC from './conversionTempFromFtoC';
-import parserCityFromData from './parserCityFromData';
+import getCurrentTime from './getCurrentTime'
+import capitalizeFirstLetter from './capitalizeFirstLetter'
+import conversionTempFromFtoC from './conversionTempFromFtoC'
 
-export function getDayWeather(dayWeather, timezoneOffset, timeZone) {
+export function getDayWeather(dayWeather, timezoneOffset, cityName) {
+  console.log(cityName)
   return {
+    city: cityName,
     value: 'Day',
-    city: parserCityFromData(timeZone),
-    currentTime: new Date(getCurrentTime(dayWeather.dt,timezoneOffset)).toLocaleTimeString(
-        "en-us",
-        {
-          timeStyle: "short",
-        }
-      ),
-    currentDay: new Date(getCurrentTime(dayWeather.dt,timezoneOffset)).toLocaleDateString(
-        "en-us",
-        {
-          weekday: "short",
-          day: "2-digit",
-          month: "long",
-        }
-      ),
+    currentTime: new Date(getCurrentTime(dayWeather.dt, timezoneOffset)).toLocaleTimeString(
+      'en-us',
+      {
+        timeStyle: 'short'
+      }
+    ),
+    currentDay: new Date(getCurrentTime(dayWeather.dt, timezoneOffset)).toLocaleDateString(
+      'en-us',
+      {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'long'
+      }
+    ),
     currentDeg: conversionTempFromFtoC(dayWeather.temp).toFixed(0),
     currentFeelLikes: conversionTempFromFtoC(dayWeather.feels_like).toFixed(0),
     description: capitalizeFirstLetter(dayWeather.weather[0].description),
@@ -32,25 +32,19 @@ export function getDayWeather(dayWeather, timezoneOffset, timeZone) {
 
 export function getDailyWeather(dailyWeather, timezoneOffset) {
   let data = []
-  
+
   for (let index = 0; index < 5; index++) {
-    const day = dailyWeather[index];
+    const day = dailyWeather[index]
     const result = {
       value: '5 Days',
-      currentTime: new Date(getCurrentTime(day.dt,timezoneOffset)).toLocaleTimeString(
-        "en-us",
-        {
-          timeStyle: "short",
-        }
-      ),
-      currentDay: new Date(getCurrentTime(day.dt,timezoneOffset)).toLocaleDateString(
-        "en-us",
-        {
-          weekday: "short",
-          day: "2-digit",
-          month: "long",
-        }
-      ),
+      currentTime: new Date(getCurrentTime(day.dt, timezoneOffset)).toLocaleTimeString('en-us', {
+        timeStyle: 'short'
+      }),
+      currentDay: new Date(getCurrentTime(day.dt, timezoneOffset)).toLocaleDateString('en-us', {
+        weekday: 'short',
+        day: '2-digit',
+        month: 'long'
+      }),
       temp_min: conversionTempFromFtoC(day.temp.min).toFixed(0),
       temp_max: conversionTempFromFtoC(day.temp.max).toFixed(0),
       description: capitalizeFirstLetter(day.weather[0].description),
@@ -63,35 +57,30 @@ export function getDailyWeather(dailyWeather, timezoneOffset) {
   return data
 }
 
- export function getWeatherFromChart (hourlyWeather, dtToDay, timezoneOffset ) {
-  return hourlyWeather.map((hour) => {
-    return {
-      value: 'Chart',
-      temp: conversionTempFromFtoC(hour.temp).toFixed(1),
-      dt: new Date(getCurrentTime(hour.dt, timezoneOffset)).toLocaleTimeString(
-        "uk",
-        {
-          timeStyle: "short",
-        }
-      ),
-      time: new Date(getCurrentTime(hour.dt, timezoneOffset)).toLocaleDateString(
-        "en-us",
-        {
-          weekday: "short",
-          day: "2-digit",
-          month: "long",
-        }
+export function getWeatherFromChart(hourlyWeather, dtToDay, timezoneOffset) {
+  return hourlyWeather
+    .map((hour) => {
+      return {
+        value: 'Chart',
+        temp: conversionTempFromFtoC(hour.temp).toFixed(1),
+        dt: new Date(getCurrentTime(hour.dt, timezoneOffset)).toLocaleTimeString('uk', {
+          timeStyle: 'short'
+        }),
+        time: new Date(getCurrentTime(hour.dt, timezoneOffset)).toLocaleDateString('en-us', {
+          weekday: 'short',
+          day: '2-digit',
+          month: 'long'
+        })
+      }
+    })
+    .filter((item) => {
+      return (
+        item.time ===
+        new Date(getCurrentTime(dtToDay, timezoneOffset)).toLocaleDateString('en-us', {
+          weekday: 'short',
+          day: '2-digit',
+          month: 'long'
+        })
       )
-
-    }
-    }).filter((item) => {
-      return item.time === new Date(getCurrentTime(dtToDay, timezoneOffset)).toLocaleDateString(
-          "en-us",
-          {
-            weekday: "short",
-            day: "2-digit",
-            month: "long",
-          }
-        )
     })
 }

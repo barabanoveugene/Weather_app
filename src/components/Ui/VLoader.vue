@@ -16,7 +16,7 @@ export default {
 </script>
 
 <style scoped>
-  .loader {
+.loader {
   position: fixed;
   top: 0;
   left: 0;
@@ -39,8 +39,11 @@ export default {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
-
 </style>

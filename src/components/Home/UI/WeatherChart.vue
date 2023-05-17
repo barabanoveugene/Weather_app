@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import Chart from 'chart.js/auto';
+import Chart from 'chart.js/auto'
 export default {
   data() {
     return {
-      dynamicId: 'myChart-' + Date.now(),
-    };
+      dynamicId: 'myChart-' + Date.now()
+    }
   },
   props: {
     chartData: {
@@ -24,20 +24,20 @@ export default {
       if (chart) {
         chart.destroy()
       }
-      
+
       const configuration = {
         type: 'line',
         data: {
-          labels: this.chartData.map(item => item.dt),
+          labels: this.chartData.map((item) => item.dt),
           datasets: [
             {
-            label: 'Temperature',
-            data: this.chartData.map(item => item.temp),
-            fill: true,
-            backgroundColor: 'rgb(0, 102, 138, 0.2)',
-            borderColor: 'rgb(0, 102, 138, 1)',
-            borderWidth: 4,
-            lineTension: 0.3,
+              label: 'Temperature',
+              data: this.chartData.map((item) => item.temp),
+              fill: true,
+              backgroundColor: 'rgb(0, 102, 138, 0.2)',
+              borderColor: 'rgb(0, 102, 138, 1)',
+              borderWidth: 4,
+              lineTension: 0.3
             }
           ]
         },
@@ -60,7 +60,7 @@ export default {
                 stepSize: 10,
                 display: false
               }
-            }   
+            }
           },
           plugins: {
             tooltip: {
@@ -91,10 +91,9 @@ export default {
           }
         }
       }
-        const ctx = document.getElementById(this.dynamicId);
-        chart = new Chart(ctx, configuration);
+      const ctx = document.getElementById(this.dynamicId)
+      chart = new Chart(ctx, configuration)
     }
-    
   },
   mounted() {
     this.printGraph()
@@ -102,7 +101,4 @@ export default {
 }
 </script>
 
-<style>
-  
-</style>
-
+<style></style>
